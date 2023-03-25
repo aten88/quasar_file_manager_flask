@@ -8,6 +8,7 @@ from flask import Flask, abort, request, send_file
 
 BASE_PATH = Path(__file__).parent
 UPLOAD_FOLDER = BASE_PATH.joinpath('Storage')
+UPLOAD_FOLDER.mkdir(exist_ok=True)
 
 ALLOWED_EXTENSIONS = {'txt', 'csv', 'json', 'xlsx', 'jpg', 'png'}
 
