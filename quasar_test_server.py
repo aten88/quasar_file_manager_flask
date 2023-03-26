@@ -6,27 +6,24 @@ from flask import Flask, abort, request, send_file
 
 # from werkzeug.utils import secure_filename
 
-BASE_PATH = Path(__file__).parent
-UPLOAD_FOLDER = BASE_PATH.joinpath('Storage')
-UPLOAD_FOLDER.mkdir(exist_ok=True)
-
-ALLOWED_EXTENSIONS = {'txt', 'csv', 'json', 'xlsx', 'jpg', 'png'}
+from constants import UPLOAD_FOLDER, ALLOWED_EXTENSIONS, MAX_SIZE
 
 
 app = Flask(__name__)
 
 app.config['UPLOAD_FOLDER']: Path = UPLOAD_FOLDER
-app.config['MAX_CONTENT_LENGTH'] = 16*1024*1024
+app.config['MAX_CONTENT_LENGTH'] = MAX_SIZE
 
 
 def allowed_ext_file(filename):
-    """ Функция проверки расширения файла """
+    """ Extension files check method """
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 @app.route("/files/get/list", methods=["GET"])
-def get_files():
+def get_files_list():
+    """ Get list files method """
     files = app.config['UPLOAD_FOLDER'].iterdir()
     return [
         file.name for file in files
@@ -36,6 +33,7 @@ def get_files():
 
 @app.route("/files/get/<string:extension>", methods=["GET"])
 def get_type_files(extension):
+    """ Get files by extension """
     if extension not in ALLOWED_EXTENSIONS:
         abort(HTTPStatus.BAD_REQUEST, "Расширение недопустимо!")
     files = app.config['UPLOAD_FOLDER'].glob(f'*.{extension}')
@@ -44,6 +42,7 @@ def get_type_files(extension):
 
 @app.route("/files/get/<string:extension>/<string:file_name>", methods=["GET"])
 def get_file(extension, file_name):
+    """ Get files by extension and filename """
     if extension not in ALLOWED_EXTENSIONS:
         abort(HTTPStatus.BAD_REQUEST, "Расширение недопустимо!")
     file = app.config['UPLOAD_FOLDER'].joinpath(f'{file_name}.{extension}')
@@ -54,6 +53,7 @@ def get_file(extension, file_name):
 
 @app.route("/files/create", methods=["POST"])
 def create_file():
+    """ Save file to Storage """
     files = request.files.getlist('file')
     if len(files) > 1:
         abort(HTTPStatus.BAD_REQUEST, "В запросе больше 1 файла!")
@@ -71,6 +71,7 @@ def create_file():
 
 @app.route("/files/delete/<file_name>", methods=["DELETE"])
 def delete_file(file_name):
+    """ Delete file from Storage """
     file = app.config['UPLOAD_FOLDER'].joinpath(f'{file_name}')
     if not allowed_ext_file(file.name):
         abort(HTTPStatus.BAD_REQUEST, "Расширение недопустимо!")
