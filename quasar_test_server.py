@@ -69,7 +69,7 @@ def create_file():
     return {"message": "Файл сохранен"}
 
 
-@app.route("/files/delete/<file_name>", methods=["DELETE"])
+@app.route("/files/delete/<string:file_name>", methods=["DELETE"])
 def delete_file(file_name):
     """ Delete file from Storage """
     file = app.config['UPLOAD_FOLDER'].joinpath(f'{file_name}')
