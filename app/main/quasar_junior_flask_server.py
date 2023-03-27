@@ -2,7 +2,7 @@ from http import HTTPStatus
 
 from pathlib import Path
 
-from flask import Flask, abort, request, send_file
+from flask import Flask, abort, request, send_file, redirect
 
 # from werkzeug.utils import secure_filename
 
@@ -19,6 +19,12 @@ def allowed_ext_file(filename):
     """ Extension files check method """
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+@app.route("/", methods=["GET"])
+def index():
+    """ Main page method """
+    return redirect('/files/get/list')
 
 
 @app.route("/files/get/list", methods=["GET"])
