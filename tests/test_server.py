@@ -1,6 +1,16 @@
+# from http import HTTPStatus
+
+# from flask import redirect
+
 from app.main.quasar_junior_flask_server import allowed_ext_file
 
 
 def test_extension():
-    test_file = 'Тестовый файл.txt'
-    assert allowed_ext_file(test_file) is True, 'Тест не пройден'
+    """ Тест проверки расширения файлов. """
+    extensions = '.txt', '.csv', '.json', '.xlsx', '.jpg', '.png'
+    for extension in extensions:
+        assert allowed_ext_file(extension) is True, 'Ошибка в расширении файла'
+
+
+# def test_index():
+#     """ Тест проверки редиректа на страницу со списком файлов"""
