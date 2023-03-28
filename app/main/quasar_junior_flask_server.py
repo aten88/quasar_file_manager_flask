@@ -4,13 +4,13 @@ from pathlib import Path
 
 from flask import Flask, abort, request, send_file, redirect
 
-# from werkzeug.utils import secure_filename
+from constants import UPLOAD_FOLDER, ALLOWED_EXTENSIONS, MAX_SIZE
 
-BASE_PATH = Path(__file__).parent
-UPLOAD_FOLDER = BASE_PATH.joinpath('Storage')
-UPLOAD_FOLDER.mkdir(exist_ok=True)
-ALLOWED_EXTENSIONS = {'txt', 'csv', 'json', 'xlsx', 'jpg', 'png'}
-MAX_SIZE = 16 * 1024 * 1024
+# BASE_PATH = Path(__file__).parent
+# UPLOAD_FOLDER = BASE_PATH.joinpath('Storage')
+# UPLOAD_FOLDER.mkdir(exist_ok=True)
+# ALLOWED_EXTENSIONS = {'txt', 'csv', 'json', 'xlsx', 'jpg', 'png'}
+# MAX_SIZE = 16 * 1024 * 1024
 
 app = Flask(__name__)
 
@@ -69,8 +69,6 @@ def create_file():
     file = files[0]
     if not allowed_ext_file(file.filename):
         abort(HTTPStatus.BAD_REQUEST, "Расширение недопустимо!")
-    # TODO filename = secure_filename(file.filename) этот метод под капотом
-    # не работает с кириллицей
     saved_file = app.config['UPLOAD_FOLDER'].joinpath(file.filename)
     if saved_file.exists():
         abort(HTTPStatus.BAD_REQUEST, "Файл уже существует!")
