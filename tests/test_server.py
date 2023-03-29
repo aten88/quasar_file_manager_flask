@@ -2,6 +2,8 @@ from http import HTTPStatus
 
 import requests
 
+import pytest
+
 from app.main.quasar_junior_flask_server import (
     allowed_ext_file,
     ALLOWED_EXTENSIONS
@@ -30,7 +32,6 @@ def test_index():
 def test_request_list_files():
     response = requests.get(url=GET_URL + '/list')
     recieved_data = response.json()
-    print(recieved_data)
     assert response.status_code == HTTPStatus.OK, 'Ошибка сетевого запроса'
     assert isinstance(recieved_data, list) is True, (
         'Тип полученных данных не является списком'
@@ -58,3 +59,12 @@ def test_request_extension_file():
 # def test_create_file():
 #     response = requests.get(url='http://127.0.0.1:4567/files/create')
 #     assert response.status_code == HTTPStatus.OK
+
+
+@pytest.fixture()
+def return_filename():
+    return 'Тестовый документ.txt'
+
+
+def test_delete(return_filename):
+    assert return_filename == 'Тестовый документ.txt'
