@@ -17,9 +17,10 @@ from configuration import (
 
 def test_extension():
     """ Тест проверки расширения файлов. """
-    extensions = '.txt', '.csv', '.json', '.xlsx', '.jpg', '.png'
-    for extension in extensions:
-        assert allowed_ext_file(extension) is True, 'Ошибка в расширении файла'
+    for extension in TEST_EXTENSIONS:
+        assert allowed_ext_file(f'.{extension}') is True, (
+            'Ошибка в расширении файла'
+        )
 
 
 def test_file_list(client: FlaskClient):
