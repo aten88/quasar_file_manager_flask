@@ -1,5 +1,4 @@
 from http import HTTPStatus
-
 from pathlib import Path
 
 from flask import Flask, abort, request, send_file, redirect
