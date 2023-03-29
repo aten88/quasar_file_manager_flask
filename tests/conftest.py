@@ -38,3 +38,5 @@ def return_filename():
         file_path.touch(exist_ok=True)
         with file_path.open('w', encoding='utf-8') as f:
             f.write(f'Тест.{extension}')
+
+# Добавить DOCSTRINGS и пояснения

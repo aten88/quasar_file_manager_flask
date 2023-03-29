@@ -78,3 +78,5 @@ def test_create_file(client: FlaskClient):
 def test_delete(client: FlaskClient):
     response = client.delete('/files/delete/TEST_SAVED.txt')
     assert response.status_code == HTTPStatus.OK, 'Ошибка удаления файла.'
+
+# Исправить DOCSTRINGS и добавить пояснения
