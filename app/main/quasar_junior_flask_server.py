@@ -1,6 +1,7 @@
-from http import HTTPStatus
-from pathlib import Path
-
+from http import HTTPStatus  # Explicit is better than implicit.
+# http://thezenofpython.com/
+from pathlib import Path  # Simple is better than complex.
+# Flat is better than nested.
 from flask import Flask, abort, request, send_file, redirect
 
 from constants import UPLOAD_FOLDER, MAX_SIZE, ALLOWED_EXTENSIONS
@@ -83,5 +84,3 @@ def delete_file(file_name):
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=4567)
-
-# Проанализировать код, сделать рефакторинг
